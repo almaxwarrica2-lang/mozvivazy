@@ -1,0 +1,12 @@
+<h2>Admin</h2>
+
+<button onclick="load()">Atualizar</button>
+<pre id="d"></pre>
+
+<script>
+function load(){
+ fetch('/admin').then(r=>r.json()).then(x=>{
+  d.innerText = JSON.stringify(x,null,2);
+ });
+}
+</script>
