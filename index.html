@@ -1,0 +1,38 @@
+<h1>MozVivazy</h1>
+
+<h3>Registro</h3>
+<input id="r1" placeholder="Telefone">
+<input id="r2" placeholder="Senha">
+<button onclick="reg()">Criar</button>
+
+<h3>Login</h3>
+<input id="l1" placeholder="Telefone">
+<input id="l2" placeholder="Senha">
+<button onclick="log()">Entrar</button>
+
+<script>
+function reg(){
+ fetch('/register',{
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({telefone:r1.value,senha:r2.value})
+ });
+ alert("Conta criada");
+}
+
+function log(){
+ fetch('/login',{
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({telefone:l1.value,senha:l2.value})
+ })
+ .then(r=>r.json())
+ .then(d=>{
+  if(d.admin) location="admin.html";
+  else if(d.user){
+    localStorage.setItem("tel",d.user.telefone);
+    location="painel.html";
+  }
+ });
+}
+</script>
