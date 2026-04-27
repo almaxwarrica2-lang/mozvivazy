@@ -1,0 +1,35 @@
+<h2>Painel</h2>
+
+<div id="vip"></div>
+<div id="info"></div>
+
+<button onclick="ganho()">Receber ganho</button>
+
+<script>
+const tel = localStorage.getItem("tel");
+
+fetch('/vips').then(r=>r.json()).then(d=>{
+ vip.innerHTML = d.map(v=>`
+  <p>${v.nome} - ${v.valor} 
+  <button onclick="buy('${v.nome}')">Comprar</button></p>
+ `).join('');
+});
+
+function buy(nome){
+ fetch('/investir',{
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({telefone:tel,nome})
+ });
+}
+
+function ganho(){
+ fetch('/ganho',{
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({telefone:tel})
+ })
+ .then(r=>r.json())
+ .then(d=>alert(JSON.stringify(d)));
+}
+</script>
